@@ -12,6 +12,7 @@
   --card-bg: #ffffff;
   --font-main: 'Outfit', sans-serif;
   --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --input-text: var(--text-main);
 }
 
 * {
@@ -405,12 +406,20 @@ select,
 textarea {
   width: 100%;
   padding: 0.8rem 1.2rem;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.03);
   border: 1px solid var(--glass-border);
   border-radius: 12px;
-  color: white;
+  color: var(--input-text);
   font-family: inherit;
   transition: border-color 0.3s ease;
+}
+
+.dark-section input,
+.dark-section select,
+.dark-section textarea {
+  --input-text: white;
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.1);
 }
 
 input:focus {

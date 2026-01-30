@@ -26,7 +26,7 @@ const AuthModal = ({ isOpen, onClose }) => {
                         initial={{ opacity: 0, scale: 0.9, y: 20 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                        className="glass-card"
+                        className="glass-card dark-section"
                         style={{
                             width: '100%',
                             maxWidth: '450px',

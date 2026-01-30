@@ -6,15 +6,18 @@ const VolunteerSection = ({ onJoin }) => {
     return (
         <section className="volunteer-section" style={{ padding: '8rem 0' }}>
             <div className="container">
-                <div className="glass-card" style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr',
-                    gap: '4rem',
-                    padding: '4rem',
-                    background: 'var(--bg-dark)',
-                    color: 'white',
-                    alignItems: 'center'
-                }}>
+                <div
+                    className="glass-card dark-section"
+                    style={{
+                        display: 'grid',
+                        gridTemplateColumns: '1fr 1fr',
+                        gap: '4rem',
+                        padding: '4rem',
+                        background: 'var(--bg-dark)',
+                        color: 'white',
+                        alignItems: 'center'
+                    }}
+                >
                     <div>
                         <h2 style={{ fontSize: '3rem', lineHeight: '1.2', marginBottom: '2rem' }}>
                             Your <span style={{ color: 'var(--accent-primary)' }}>Hands</span>,<br />
@@ -41,15 +44,15 @@ const VolunteerSection = ({ onJoin }) => {
                         <form onSubmit={(e) => e.preventDefault()} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                             <div className="form-group">
                                 <label style={{ color: 'rgba(255,255,255,0.7)' }}>Full Name</label>
-                                <input type="text" placeholder="Alex Johnson" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} />
+                                <input type="text" placeholder="Alex Johnson" />
                             </div>
                             <div className="form-group">
                                 <label style={{ color: 'rgba(255,255,255,0.7)' }}>Email</label>
-                                <input type="email" placeholder="alex@example.com" style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }} />
+                                <input type="email" placeholder="alex@example.com" />
                             </div>
                             <div className="form-group">
                                 <label style={{ color: 'rgba(255,255,255,0.7)' }}>Availability</label>
-                                <select style={{ background: 'rgba(255,255,255,1)', color: 'black' }}>
+                                <select>
                                     <option>Weekends</option>
                                     <option>Weekdays</option>
                                     <option>Remote/Phone</option>
@@ -60,7 +63,7 @@ const VolunteerSection = ({ onJoin }) => {
                     </div>
                 </div>
             </div>
-        </section>
+        </section >
     );
 };
 

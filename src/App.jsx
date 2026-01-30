@@ -11,6 +11,7 @@ import VolunteerSection from './components/VolunteerSection';
 
 import DonationForm from './components/DonationForm';
 import PaymentGateway from './components/PaymentGateway';
+import { saveDonation } from './utils/storage';
 
 function App() {
     const [scrolled, setScrolled] = useState(false);
@@ -41,6 +42,7 @@ function App() {
     };
 
     const handlePaymentComplete = () => {
+        saveDonation(donorData);
         setIsPaymentGatewayOpen(false);
         alert("Thank you for your generous donation! A receipt and 80G certificate (if requested) will be sent to your email.");
     };
