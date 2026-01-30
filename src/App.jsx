@@ -8,6 +8,7 @@ import AuthModal from './components/AuthModal';
 import NotificationToast from './components/NotificationToast';
 import SuccessStories from './components/SuccessStories';
 import VolunteerSection from './components/VolunteerSection';
+import ImpactDashboard from './components/ImpactDashboard';
 
 import DonationForm from './components/DonationForm';
 import PaymentGateway from './components/PaymentGateway';
@@ -61,6 +62,7 @@ function App() {
                         <li><a href="#dashboard" style={{ color: scrolled ? 'var(--text-main)' : 'white' }} onClick={() => setIsMobileMenuOpen(false)}>Impact Map</a></li>
                         <li><a href="#charity" style={{ color: scrolled ? 'var(--text-main)' : 'white' }} onClick={() => setIsMobileMenuOpen(false)}>Donate</a></li>
                         <li><a href="#funding" style={{ color: scrolled ? 'var(--text-main)' : 'white' }} onClick={() => setIsMobileMenuOpen(false)}>NGO Missions</a></li>
+                        <li><a href="#admin-dashboard" style={{ color: scrolled ? 'var(--text-main)' : 'white' }} onClick={() => setIsMobileMenuOpen(false)}>Impact Log</a></li>
                     </ul>
 
                     <div className="nav-actions">
@@ -155,6 +157,7 @@ function App() {
             </section>
 
             <VolunteerSection onJoin={handleStartDonation} />
+            <ImpactDashboard />
             {/* ... footer */}
 
             <footer style={{ padding: '6rem 0', background: 'var(--bg-dark)', color: 'white' }}>
