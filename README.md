@@ -6,28 +6,7 @@ A modern, responsive **Food Donation Web Application** built with **React + Vite
 
 ## 📁 Project Structure
 
-food-donation-app/
-├── src/                        # Source code
-│   ├── components/             # Reusable UI components
-│   │   ├── AuthModal.jsx       # Login / Signup modal
-│   │   ├── CharityPortal.jsx   # Clothes & item donation section
-│   │   ├── DonationForm.jsx    # Food donation input form
-│   │   ├── MapComponent.jsx    # Interactive Hyderabad map
-│   │   ├── NGOFunding.jsx      # NGO funding portal
-│   │   ├── NotificationToast.jsx # Floating alerts & feedback
-│   │   ├── PaymentGateway.jsx  # Mock payment interface
-│   │   ├── SuccessStories.jsx  # Testimonials & impact section
-│   │   └── VolunteerSection.jsx # "Join Us" volunteer call-to-action
-│   ├── App.jsx                 # Root component / Page layout
-│   ├── index.css               # Global styles & premium design system
-│   └── main.jsx                # React entry point
-├── dist/                       # Optimized production build (deployment-ready)
-├── index.html                  # Main HTML entry point
-├── package.json                # Dependencies & scripts
-├── vite.config.js              # Vite build configuration
-├── vercel.json                 # Vercel deployment configuration
-└── README.md                   # Project documentation
-
+<img width="636" height="603" alt="image" src="https://github.com/user-attachments/assets/8b0434b7-7d11-4f55-9966-e525c13097c2" />
 
 
 ---
