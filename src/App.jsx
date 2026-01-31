@@ -12,7 +12,7 @@ import ImpactDashboard from './components/ImpactDashboard';
 
 import DonationForm from './components/DonationForm';
 import PaymentGateway from './components/PaymentGateway';
-import { saveDonation } from './utils/storage';
+import { saveDonation } from './utils/api';
 
 function App() {
     const [scrolled, setScrolled] = useState(false);
@@ -21,12 +21,20 @@ function App() {
     const [isDonationFormOpen, setIsDonationFormOpen] = useState(false);
     const [isPaymentGatewayOpen, setIsPaymentGatewayOpen] = useState(false);
     const [donorData, setDonorData] = useState(null);
+    const [user, setUser] = useState(null);
 
     useEffect(() => {
         const handleScroll = () => {
             setScrolled(window.scrollY > 50);
         };
         window.addEventListener('scroll', handleScroll);
+
+        // Load user from localStorage
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            setUser(JSON.parse(storedUser));
+        }
+
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
@@ -42,10 +50,24 @@ function App() {
         setIsPaymentGatewayOpen(true);
     };
 
-    const handlePaymentComplete = () => {
-        saveDonation(donorData);
-        setIsPaymentGatewayOpen(false);
-        alert("Thank you for your generous donation! A receipt and 80G certificate (if requested) will be sent to your email.");
+    const handlePaymentComplete = async () => {
+        try {
+            await saveDonation(donorData);
+            setIsPaymentGatewayOpen(false);
+            alert("Thank you for your generous donation! A receipt and 80G certificate (if requested) will be sent to your email.");
+        } catch (error) {
+            alert("There was an error saving your donation. Please try again.");
+        }
+    };
+
+    const handleAuthSuccess = (userData) => {
+        setUser(userData);
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        setUser(null);
     };
 
     return (
@@ -66,7 +88,14 @@ function App() {
                     </ul>
 
                     <div className="nav-actions">
-                        <button className="btn btn-primary" style={{ padding: '0.8rem 1.5rem', fontSize: '0.8rem' }} onClick={() => setIsAuthModalOpen(true)}>Join the Cause</button>
+                        {user ? (
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                <span style={{ color: scrolled ? 'var(--text-main)' : 'white', fontWeight: '600' }}>Hi, {user.fullName.split(' ')[0]}</span>
+                                <button className="btn btn-outline" style={{ padding: '0.6rem 1.2rem', fontSize: '0.8rem' }} onClick={handleLogout}>Logout</button>
+                            </div>
+                        ) : (
+                            <button className="btn btn-primary" style={{ padding: '0.8rem 1.5rem', fontSize: '0.8rem' }} onClick={() => setIsAuthModalOpen(true)}>Join the Cause</button>
+                        )}
                         <button className="mobile-menu-toggle" onClick={toggleMobileMenu} style={{ color: scrolled ? 'var(--text-main)' : 'white' }}>
                             {isMobileMenuOpen ? <X /> : <Menu />}
                         </button>
@@ -74,7 +103,7 @@ function App() {
                 </div>
             </nav>
 
-            <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
+            <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} onAuthSuccess={handleAuthSuccess} />
             <DonationForm isOpen={isDonationFormOpen} onClose={() => setIsDonationFormOpen(false)} onShowPayment={handleShowPayment} />
             <PaymentGateway isOpen={isPaymentGatewayOpen} onClose={() => setIsPaymentGatewayOpen(false)} formData={donorData} onComplete={handlePaymentComplete} />
             <NotificationToast />
