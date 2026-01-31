@@ -13,6 +13,7 @@ import ImpactDashboard from './components/ImpactDashboard';
 import DonationForm from './components/DonationForm';
 import PaymentGateway from './components/PaymentGateway';
 import { saveDonation } from './utils/api';
+import { saveDonation as saveLocalDonation } from './utils/storage';
 
 function App() {
     const [scrolled, setScrolled] = useState(false);
@@ -52,11 +53,42 @@ function App() {
 
     const handlePaymentComplete = async () => {
         try {
-            await saveDonation(donorData);
+            // Map form data to backend Donation model schema
+            const finalDonationData = {
+                donorName: donorData.fullName,
+                donorEmail: donorData.email,
+                donationType: donorData.donationType || 'Donate Once',
+                amount: 2500, // This matches the UI hardcoded value for now
+                timestamp: new Date()
+            };
+
+            console.log('💰 Saving Donation to API:', finalDonationData);
+            await saveDonation(finalDonationData);
+
+            // 2. Save to LOCAL Transparency Log (localStorage)
+            console.log('📋 Saving to Local Transparency Log:', donorData);
+            saveLocalDonation(donorData);
+
+            // Persist guest details for the Nav Bar
+            const donorInfo = {
+                fullName: donorData.fullName,
+                email: donorData.email,
+                isGuest: !user
+            };
+            localStorage.setItem('donorDetails', JSON.stringify(donorInfo));
+
+            // If NOT logged in, we can update the UI to show the guest's name
+            if (!user) {
+                setUser(donorInfo);
+                localStorage.setItem('user', JSON.stringify(donorInfo));
+            }
+            console.log('✅ Details saved to Local Storage:', donorInfo);
+
             setIsPaymentGatewayOpen(false);
             alert("Thank you for your generous donation! A receipt and 80G certificate (if requested) will be sent to your email.");
         } catch (error) {
-            alert("There was an error saving your donation. Please try again.");
+            console.error('❌ Donation Save Error:', error);
+            alert(`Donation Failed: ${error.message || 'Check your internet or server logs'}`);
         }
     };
 
@@ -178,10 +210,6 @@ function App() {
             </section>
 
             <section id="funding" className="container" style={{ padding: '8rem 0' }}>
-                <div style={{ textAlign: 'center', marginBottom: '4rem' }}>
-                    <h2 style={{ fontSize: '3rem', marginBottom: '1rem' }}>Hyderabad <span className="gradient-text">NGO Missions</span></h2>
-                    <p style={{ color: 'var(--text-muted)' }}>Directly support organizations working in Jubilee Hills, Old City, and beyond.</p>
-                </div>
                 <NGOFunding onDonate={handleStartDonation} />
             </section>
 

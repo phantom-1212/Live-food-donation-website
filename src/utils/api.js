@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:5001/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
 
 export const registerUser = async (userData) => {
     try {
@@ -42,6 +42,7 @@ export const loginUser = async (credentials) => {
 
 export const saveDonation = async (donation) => {
     try {
+        console.log('🌐 Attempting to save to:', `${API_BASE_URL}/donations`);
         const response = await fetch(`${API_BASE_URL}/donations`, {
             method: 'POST',
             headers: {
@@ -49,12 +50,18 @@ export const saveDonation = async (donation) => {
             },
             body: JSON.stringify(donation),
         });
+
         if (!response.ok) {
-            throw new Error('Failed to save donation');
+            const errorData = await response.json().catch(() => ({}));
+            console.error('❌ Server Error Response:', errorData);
+            throw new Error(errorData.message || 'Failed to save donation');
         }
-        return await response.json();
+
+        const result = await response.json();
+        console.log('✅ Donation saved successfully:', result);
+        return result;
     } catch (error) {
-        console.error('Error saving donation:', error);
+        console.error('🔴 API Connection Error:', error.message);
         throw error;
     }
 };
